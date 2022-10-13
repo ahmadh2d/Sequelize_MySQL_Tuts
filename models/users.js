@@ -1,14 +1,27 @@
 const { Sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    sequelize.define("users", {
+    return sequelize.define("users", {
         name: {
             type: DataTypes.STRING,
         },
         email: {
             type: DataTypes.STRING,
-            defaultValue: "test_email@tmail.com"
+            defaultValue: "test_email@tmail.com",
+            allowNull: false,
+            unique: true
         },
-        Gender: DataTypes.STRING
+        gender: {
+            type: DataTypes.STRING,
+            validate: {
+                isIn: {
+                    args: [['male', 'female', 'm', 'f']],
+                    msg: "Value should be male/female/m/f"
+                }
+            }
+        }
+    }, {
+        //timestamps: false/true
+        //updatedAt: 'updated_At' | false/true,
     });
 }
